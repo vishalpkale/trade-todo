@@ -361,6 +361,24 @@
             document.querySelectorAll("input[type=checkbox]").forEach(c => c.checked = data[c.dataset.k] || false);
             notes.value = data.notes || "";
         });
+
+
+        const KEEP_ALIVE_URL = "https://trade-ndpp.onrender.com/";
+
+        async function pingServer() {
+            try {
+                const res = await fetch(KEEP_ALIVE_URL, { cache: "no-store" });
+                console.log("Pinged server:", new Date().toLocaleTimeString());
+            } catch (err) {
+                console.error("Ping failed:", err);
+            }
+        }
+
+        // First hit immediately
+        pingServer();
+
+        // Then every 3 minutes (180000 ms)
+        setInterval(pingServer, 180000);
     </script>
 
 </body>
